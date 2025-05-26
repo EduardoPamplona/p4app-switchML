@@ -200,6 +200,22 @@ struct RdmaBackendConfig {
      */
     uint32_t msg_numel;
 
+#endif
+
+#ifdef UDP
+/**
+ * @brief Configuration options specific to using the UDP backend.
+ */
+struct UdpBackendConfig {
+    /** Worker UDP port */
+    uint16_t worker_port;
+    
+    /** Worker IP address */
+    std::string worker_ip_str;
+    
+    /** Should we process packets (simulate switch aggregation) */
+    bool process_packets;
+
     /**
      * The name of the Infiniband device to use. It will be something like `mlx5_0`.
      * You can run the `ibv_devices` command to list your available devices.
@@ -256,6 +272,9 @@ struct BackendConfig {
 #endif
 #ifdef DUMMY
     struct DummyBackendConfig dummy;
+#endif
+#ifdef UDP
+    struct UdpBackendConfig udp;
 #endif
 };
 

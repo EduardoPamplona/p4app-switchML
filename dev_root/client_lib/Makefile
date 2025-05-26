@@ -76,7 +76,9 @@ endif
 ifeq ($(DUMMY),0)
 ifneq ($(DPDK),1)
 ifneq ($(RDMA),1)
+ifneq ($(UDP),1)
 $(error You must enable at least one backend)
+endif
 endif
 endif
 endif
@@ -92,6 +94,14 @@ $(info DUMMY set. Compiling the dummy backend..)
 CXXFLAGS += -DDUMMY
 SRCDIRS_ += $(SRCDIR_)/backends/dummy
 CFGFILES += $(SRCDIR_)/configs/dummy.cfg
+endif
+
+ifeq ($(UDP),1)
+$(info UDP set. Compiling the UDP backend..)
+GRPC = 1
+CXXFLAGS += -DUDP
+SRCDIRS_ += $(SRCDIR_)/backends/udp
+CFGFILES += $(SRCDIR_)/configs/udp.cfg
 endif
 
 ifeq ($(DPDK),1)

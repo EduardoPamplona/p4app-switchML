@@ -34,6 +34,9 @@
 #ifdef DPDK
 #include "dpdk_backend.h"
 #endif
+#ifdef UDP
+#include "udp_backend.h"
+#endif
 
 namespace switchml {
 
@@ -56,6 +59,13 @@ std::unique_ptr<Backend> Backend::CreateInstance(Context& context, Config& confi
     if (backend == "dpdk") {
 #ifdef DPDK
         return std::make_unique<DpdkBackend>(context, config);
+#else
+        LOG(FATAL) << "SwitchML was not compiled with '" << backend << "' backend support.";
+#endif
+    }
+    if (backend == "udp") {
+#ifdef UDP
+        return std::make_unique<UdpBackend>(context, config);
 #else
         LOG(FATAL) << "SwitchML was not compiled with '" << backend << "' backend support.";
 #endif
